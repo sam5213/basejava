@@ -5,7 +5,7 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    private int countResume = 0;
+    private int countResume;
 
     void clear() {
         for (int i = 0; i < countResume; i++) {
@@ -21,7 +21,7 @@ public class ArrayStorage {
         }
         if (countResume > 0) {
             for (int i = 0; i < countResume; i++) {
-                if (storage[i].uuid == r.uuid) {
+                if (storage[i].uuid.equals(r.uuid)) {
                     System.out.println("This uuid is already in the storage");
                     return;
                 }
@@ -42,14 +42,12 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        int deleteIndex = 0;
         for (int i = 0; i < countResume; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                deleteIndex = i;
-                countResume--;
-                for (int j = deleteIndex; j < countResume + 1; j++) {
+                for (int j = i; j < countResume - 1; j++) {
                     storage[j] = storage[j + 1];
                 }
+                storage[countResume--] = null;
                 break;
             }
         }
