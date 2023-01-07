@@ -9,7 +9,7 @@ import com.urise.webapp.model.Resume;
 public class ArrayStorage {
     private final int STORAGE_LIMIT = 10000;
     private int countResume;
-    Resume[] storage = new Resume[STORAGE_LIMIT];
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
 
     public void clear() {
         Arrays.fill(storage, 0, countResume, null);
@@ -19,10 +19,8 @@ public class ArrayStorage {
         int index = getIndex(r.uuid);
         if (countResume == storage.length) {
             System.out.println("Storage filled");
-            return;
         } else if (index != -1) {
             System.out.println("This uuid: " + r.uuid + " is already in the storage");
-            return;
         } else {
             storage[countResume++] = r;
         }
