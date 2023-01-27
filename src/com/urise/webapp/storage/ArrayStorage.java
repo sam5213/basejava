@@ -16,7 +16,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (size == storage.length) {
+        if (size >= STORAGE_LIMIT) {
             System.out.println("Storage filled");
         } else if (getIndex(r.getUuid()) != -1) {
             System.out.println("This uuid: " + r.getUuid() + " is already in the storage");
