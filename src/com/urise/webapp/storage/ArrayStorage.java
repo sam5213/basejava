@@ -8,21 +8,20 @@ import com.urise.webapp.model.Resume;
  */
 public class ArrayStorage {
     private final int STORAGE_LIMIT = 10000;
-    private int countResume;
+    private int size;
     private final Resume[] storage = new Resume[STORAGE_LIMIT];
 
     public void clear() {
-        Arrays.fill(storage, 0, countResume, null);
+        Arrays.fill(storage, 0, size, null);
     }
 
     public void save(Resume r) {
-        int index = getIndex(r.uuid);
-        if (countResume == storage.length) {
+        if (size == storage.length) {
             System.out.println("Storage filled");
-        } else if (index != -1) {
-            System.out.println("This uuid: " + r.uuid + " is already in the storage");
+        } else if (getIndex(r.getUuid()) != -1) {
+            System.out.println("This uuid: " + r.getUuid() + " is already in the storage");
         } else {
-            storage[countResume++] = r;
+            storage[size++] = r;
         }
      }
 
@@ -36,38 +35,38 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int index = getIndex(resume.uuid);
+        int index = getIndex(resume.getUuid());
         if (index == -1) {
-            System.out.println("Storage has not this resume with uuid: " + resume.uuid);
-            return;
+            System.out.println("Storage has not this resume with uuid: " + resume.getUuid());
+        } else {
+            storage[index] = resume;
         }
-        storage[index] = resume;
     }
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index == -1) {
             System.out.println("Storage has not this resume with uuid: " + uuid);
-            return;
+        } else {
+            storage[index] = storage[size - 1];
+            storage[size--] = null;
         }
-        storage[index] = storage[countResume - 1];
-        storage[countResume--] = null;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        return Arrays.copyOf(storage, countResume);
+        return Arrays.copyOf(storage, size);
     }
 
     public int size() {
-        return countResume;
+        return size;
     }
 
     private int getIndex(String uuid) {
-        for (int i = 0; i < countResume; i++) {
-            if (storage[i].uuid.equals(uuid)) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
         }
